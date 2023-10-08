@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text} from "react-native";
 import GenerateHabitButtons from "./GenerateHabitButtons";
 
-import FlameSvgIcon from "../icons/flame.svg" ;
+import StreakCounter from "./StreakCounter";
 
 const AllHabitButtons = ()=>{
     var textData = [
@@ -32,10 +32,7 @@ const Nav = ()=>{
                 <View style={styles.titleContainer}>
                     <Text style={styles.headingText}>HabitProgressor</Text>
                 </View>
-                <View style={styles.streakContainer}>
-                    <FlameSvgIcon width="32" height="32"/>
-                    <Text style={styles.streakContainerText}>5</Text>
-                </View>
+                <StreakCounter/>
             </View>
             <AllHabitButtons/>
             
@@ -64,15 +61,6 @@ const styles = StyleSheet.create({
     headingText:{
         color:"#fff",
         fontSize:25
-    },
-    streakContainer:{
-        flexDirection:"row",
-        gap:5,
-        alignItems:"flex-end"
-    },
-    streakContainerText:{
-        color:"white",
-        fontSize:15
     }
 });
 

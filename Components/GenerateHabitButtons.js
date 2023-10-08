@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { TouchableOpacity, Text, View, StyleSheet} from "react-native";
 
+import StreakCounter from "./StreakCounter";
+
 const HabitButton = ({data})=>{
     const [buttonBackgroundColors, setButtonBackgroundColors] = useState(
         data.map(()=>"#F3061A")
@@ -19,6 +21,7 @@ const HabitButton = ({data})=>{
           {data.map((textData, index) => (
             <TouchableOpacity key={index} onPress={btnClicked.bind(null, index)} style={{...styles.button, backgroundColor:buttonBackgroundColors[index]}}>
                 <Text style={styles.text}>{textData}</Text>
+                <StreakCounter width={24} height={24}/>
             </TouchableOpacity>
           ))}
         </View>
@@ -27,8 +30,10 @@ const HabitButton = ({data})=>{
 
 var styles = StyleSheet.create({
     button:{
-        alignItems:"center",
+        flex:1,
+        flexDirection:"row",
         justifyContent:"center",
+        alignItems:"center",
         minHeight:45,
         borderRadius:18,
         padding:10
