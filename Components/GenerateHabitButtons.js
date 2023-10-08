@@ -6,7 +6,6 @@ const HabitButton = ({data})=>{
         data.map(()=>"#F3061A")
     )
 
-
     const btnClicked = (index)=>{
         const newColors = [...buttonBackgroundColors]
 
