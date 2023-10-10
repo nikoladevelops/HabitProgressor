@@ -2,11 +2,11 @@ import React from "react"
 import {StyleSheet, View, Text} from "react-native"
 import FlameSvgIcon from "../icons/flame.svg" ;
 
-const StreakCounter = ({width="32", height="32", streakValue=0})=>{
+const StreakCounter = ({width="32", height="32", streakValue=0, fontSize=20})=>{
     return (
         <View style={styles.streakContainer}>
             <FlameSvgIcon width={width} height={height}/>
-            <Text style={styles.streakContainerText}>{streakValue}</Text>
+            <Text style={{fontSize:fontSize, ...styles.streakContainerText}}>{streakValue}</Text>
         </View>
     );
 }
@@ -14,12 +14,11 @@ const StreakCounter = ({width="32", height="32", streakValue=0})=>{
 const styles = StyleSheet.create({
     streakContainer:{
         flexDirection:"row",
-        gap:5,
-        alignItems:"flex-end"
+        alignItems:"flex-end",
+        gap:5
     },
     streakContainerText:{
         color:"white",
-        fontSize:15
     }
 });
 export default StreakCounter

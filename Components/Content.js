@@ -9,12 +9,14 @@ const AllHabitButtons = ()=>{
         "test",
         "test2",
         "test3",
+        "Write 10 pages a day woah woah",
+        "my custom habit goes here",
+        "my custom habit goes here",
+        "my custom habit goes here ge",
         "my custom habit goes here",
         "my custom habit goes here",
         "my custom habit goes here",
-        "my custom habit goes here",
-        "my custom habit goes here",
-        "my custom habit goes heremy custom habit goes heremy custom habit goes heremy custom habit goes heremy custom habit goes heremy custom habit goes heremy custom habit goes here",
+        "my custom habit goes heremy heremy custom habit goes heremy custom habit goes heremygggggffgfgfg fg custom habit goes heremy custom habit goes heremy custom habit goes her",
         "my custom habit goes here",
         "my custom habit goes here",
         "my custom habit goes here"
@@ -35,7 +37,6 @@ const Nav = ()=>{
                 <StreakCounter/>
             </View>
             <AllHabitButtons/>
-            
         </View>
     );
 }
