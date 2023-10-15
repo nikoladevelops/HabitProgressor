@@ -1,29 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text} from "react-native";
 import GenerateHabitButtons from "./GenerateHabitButtons";
 
 import StreakCounter from "./StreakCounter";
+import {getAllHabits} from "../db/db.js"
 
 const AllHabitButtons = ()=>{
-    var textData = [
-        "test",
-        "test2",
-        "test3",
-        "Write 10 pages a day woah woah",
-        "my custom habit goes here",
-        "my custom habit goes here",
-        "my custom habit goes here ge",
-        "my custom habit goes here",
-        "my custom habit goes here",
-        "my custom habit goes here",
-        "my custom habit goes heremy heremy custom habit goes heremy custom habit goes heremygggggffgfgfg fg custom habit goes heremy custom habit goes heremy custom habit goes her",
-        "my custom habit goes here",
-        "my custom habit goes here",
-        "my custom habit goes here"
-    ]
+    var [habitData, setHabitData] = useState([])
+    var [isLoading, setIsLoading] = useState(1)
 
+    useEffect(()=>{
+        getAllHabits((res)=>{
+            var habitDescriptions = res.map((habit)=>habit.description)
+            setHabitData(habitDescriptions)
+            setIsLoading(0)
+        })
+    },[])
+
+    
+    if (isLoading){
+        return <View><Text>Loading...</Text></View>
+    }
+    
     return (
-        <GenerateHabitButtons data={textData}/>
+        <GenerateHabitButtons data={habitData}/>
       );
 }
 

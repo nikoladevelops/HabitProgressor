@@ -4,14 +4,9 @@ const dbName = "habits.db"
 const db = SQLite.openDatabase(dbName)
 
 // Function to initialize the database and create tables if necessary
-const initDatabase = (callback) => {
+const initTables = () => {
     db.transaction((tx) => {
       tx.executeSql('CREATE TABLE IF NOT EXISTS Habits (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT, streakCount INTEGER, doneToday BOOLEAN)');
-      
-      // Check if a callback is provided before calling it
-      if (typeof callback === 'function') {
-        callback();
-      }
     });
   };
 
@@ -38,24 +33,20 @@ const insertTestData = () => {
 
 // Get all habit data for all rows inside the Habits table
 const getAllHabits = (successCallback, errorCallback) => {
-  db.transaction((tx) => {
-    tx.executeSql("SELECT COUNT(*) as count FROM Habits")
-    tx.executeSql(
-      'SELECT * FROM Habits',
-      [],
-      (_, results) => {
-        const habits = results.rows.raw(); // Convert the results to an array of objects
-        successCallback(habits);
-      },
-      (_, error) => {
-        errorCallback(error);
-      }
-    );
-  });
+  db.transaction((tx)=>{
+    tx.executeSql("SELECT * FROM Habits",null,
+    (_, result)=>{
+      successCallback(result.rows._array)
+    },
+    (_, err)=>{
+      errorCallback(err)
+    })
+  })
 };
 
-export default{
-  initDatabase,
+
+module.exports = {
+  initTables,
   insertTestData,
   getAllHabits
 }
