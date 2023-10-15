@@ -5,9 +5,9 @@ import StreakCounter from "./StreakCounter";
 
 const HabitButton = ({data})=>{
     const [buttonBackgroundColors, setButtonBackgroundColors] = useState(
-        data.map(()=>"#F3061A")
+        data.map((habit)=> habit.doneToday ? "#0EC64B" : "#F3061A")
     )
-
+    
     const btnClicked = (index)=>{
         const newColors = [...buttonBackgroundColors]
 
@@ -18,12 +18,12 @@ const HabitButton = ({data})=>{
 
     return(
         <View style={styles.allHabitBtnContainer}>
-          {data.map((textData, index) => (
+          {data.map((habit, index) => (
             <TouchableOpacity key={index} onPress={btnClicked.bind(null, index)} style={{...styles.button, backgroundColor:buttonBackgroundColors[index]}}>
                 <View style={styles.buttonContent}>
-                    <Text style={styles.text}>{textData}</Text>
+                    <Text style={styles.text}>{habit.description}</Text>
                     <View style={{alignSelf:"flex-start"}}>
-                        <StreakCounter width={15} height={15} streakValue={4554} fontSize={10}/>
+                        <StreakCounter width={15} height={15} streakValue={habit.streakCount} fontSize={10}/>
                     </View>
                 </View>
             </TouchableOpacity>

@@ -11,17 +11,18 @@ const AllHabitButtons = ()=>{
 
     useEffect(()=>{
         getAllHabits((res)=>{
-            var habitDescriptions = res.map((habit)=>habit.description)
-            setHabitData(habitDescriptions)
+            setHabitData(res)
             setIsLoading(0)
         })
     },[])
 
-    
     if (isLoading){
-        return <View><Text>Loading...</Text></View>
+        return (
+            <View style={{flex:1, minHeight:500, backgroundColor:"white", justifyContent:"center", alignItems:"center"}}>
+            <Text style={{color:'black', fontSize:33}}>Loading...</Text>
+            </View>
+            )
     }
-    
     return (
         <GenerateHabitButtons data={habitData}/>
       );
