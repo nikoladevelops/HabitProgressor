@@ -7,20 +7,20 @@ const HabitModal = ({isVisible, onClose})=>{
         console.log('test')
     }
     return(
-        <Modal style={styles.modal} isVisible={isVisible} backdropOpacity={0.9} animationIn="fadeIn"
-        animationOut="fadeOut" onRequestClose={onClose}>
+        <Modal style={styles.modal} isVisible={isVisible} backdropOpacity={0.9} animationIn="zoomIn"
+        animationOut="slideOutDown" onRequestClose={onClose}>
             <Text style={styles.modalText}>Add New Habit</Text>
             <View style={styles.inputContainer}>
-                <TextInput style={styles.textInput} placeholder="Habit">
+                <TextInput style={styles.textInput} placeholder="Habit" placeholderTextColor={"#505050"}>
                 </TextInput>
-                <TextInput style={styles.textInput} keyboardType="numeric" placeholder="Streak Count">
+                <TextInput style={styles.textInput} keyboardType="numeric" placeholder="Streak Count" placeholderTextColor={"#505050"}>
                 </TextInput>
             </View>
             <View style={styles.operationBtnsContainer}>
-                <TouchableOpacity style={styles.operationBtn}onPress={createNewHabit}>
+                <TouchableOpacity style={{backgroundColor:"green",...styles.operationBtn}}onPress={createNewHabit}>
                     <Text style={styles.btnText}>Create</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.operationBtn}onPress={onClose}>
+                <TouchableOpacity style={{backgroundColor:"#505050",...styles.operationBtn}} onPress={onClose}>
                     <Text style={styles.btnText}>Close</Text>
                 </TouchableOpacity>
             </View>
@@ -64,8 +64,11 @@ const styles = StyleSheet.create({
     },
     operationBtn:{
         borderWidth:1,
-        borderColor:"black",
-        padding:15
+        borderColor:"#fff",
+        borderStyle:"dotted",
+        padding:10,
+        minWidth:80,
+        alignItems:"center",
     },
 });
 

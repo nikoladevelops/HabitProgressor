@@ -4,9 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import HabitModal from "./HabitModal";
 
 const Settings = ()=>{
-
     const [isModalVisible, setModalVisible] = useState(false)
-
 
     return(
         <View style={styles.container}>
