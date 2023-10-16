@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import HabitModal from "./HabitModal";
 
 const Settings = ()=>{
+
+    const [isModalVisible, setModalVisible] = useState(false)
+
+
     return(
         <View style={styles.container}>
             <View style={styles.operationBtnsContainer}>
-                <TouchableOpacity style={styles.operationBtn}>
+                <TouchableOpacity style={styles.operationBtn} onPress={()=>{setModalVisible(true);}}>
                     <Text style={{color:'#0EC64B', fontSize:35}}>+</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.operationBtn}>
@@ -16,6 +21,7 @@ const Settings = ()=>{
             <TouchableOpacity style={{marginRight:30}}>
                 <Text style={styles.settingsText}>Settings</Text>
             </TouchableOpacity>
+            <HabitModal isVisible={isModalVisible} onClose={()=>setModalVisible(false)}/>
         </View>
     );
 }
