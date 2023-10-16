@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, ScrollView } from 'react-native';
-import Content from './Components/Content.js';
+import AllHabitButtons from './Components/AllHabitButtons.js';
+import Nav from "./Components/Nav.js"
+
 import Settings from './Components/Settings.js';
 
 import {initTables, insertTestData} from "./db/db.js"
@@ -16,7 +18,8 @@ export default function App() {
   return (
     <ScrollView style={styles.container}>
       <Settings/>
-      <Content/>
+      <Nav/>
+      <AllHabitButtons/>
       <StatusBar style="auto" />
     </ScrollView>
   );

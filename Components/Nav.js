@@ -1,32 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, View, Text} from "react-native";
-import GenerateHabitButtons from "./GenerateHabitButtons";
-
 import StreakCounter from "./StreakCounter";
-import {getAllHabits} from "../db/db.js"
-
-const AllHabitButtons = ()=>{
-    var [habitData, setHabitData] = useState([])
-    var [isLoading, setIsLoading] = useState(1)
-
-    useEffect(()=>{
-        getAllHabits((res)=>{
-            setHabitData(res)
-            setIsLoading(0)
-        })
-    },[])
-
-    if (isLoading){
-        return (
-            <View style={{flex:1, minHeight:500, backgroundColor:"white", justifyContent:"center", alignItems:"center"}}>
-            <Text style={{color:'black', fontSize:33}}>Loading...</Text>
-            </View>
-            )
-    }
-    return (
-        <GenerateHabitButtons data={habitData}/>
-      );
-}
 
 const Nav = ()=>{
     return(
@@ -37,7 +11,6 @@ const Nav = ()=>{
                 </View>
                 <StreakCounter/>
             </View>
-            <AllHabitButtons/>
         </View>
     );
 }

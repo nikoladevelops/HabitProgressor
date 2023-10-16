@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, View, StyleSheet} from "react-native";
 
 import StreakCounter from "./StreakCounter";
 
-const HabitButton = ({data})=>{
+const GenerateHabitButtons = ({data})=>{
     const [buttonBackgroundColors, setButtonBackgroundColors] = useState(
         data.map((habit)=> habit.doneToday ? "#0EC64B" : "#F3061A")
     )
@@ -60,4 +60,4 @@ var styles = StyleSheet.create({
         flexDirection:"column"
     }
 });
-export default HabitButton;
+export default GenerateHabitButtons;
