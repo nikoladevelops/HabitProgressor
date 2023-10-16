@@ -5,7 +5,15 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 const Settings = ()=>{
     return(
         <View style={styles.container}>
-            <TouchableOpacity>
+            <View style={styles.operationBtnsContainer}>
+                <TouchableOpacity style={styles.operationBtn}>
+                    <Text style={{color:'#0EC64B', fontSize:35}}>+</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.operationBtn}>
+                    <Text style={{color:'#F3061A', fontSize:35}}>-</Text>
+                </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={{marginRight:30}}>
                 <Text style={styles.settingsText}>Settings</Text>
             </TouchableOpacity>
         </View>
@@ -14,16 +22,31 @@ const Settings = ()=>{
 
 const styles = StyleSheet.create({
     container:{
-        display:"flex",
+        flex:1,
+        flexDirection:"row",
+        alignItems:"center",
         paddingTop:"15%",
         paddingBottom:"5%",
         backgroundColor:"black",
-        alignItems:'flex-end',
-        paddingRight:"8%",
     },
     settingsText:{
         color:"#fff",
-        fontSize:25
+        fontSize:20
+    },
+    operationBtnsContainer:{
+        flex:1,
+        flexDirection:"row",
+        gap:15,
+        marginLeft:20
+    },
+    operationBtn:{
+        flex:1,
+        alignItems:"center",
+        justifyContent:"center",
+        maxWidth:50,
+        borderWidth:1,
+        borderColor:'white',
+        borderStyle:"dotted"
     }
 });
 export default Settings;
