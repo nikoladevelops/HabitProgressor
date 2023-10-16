@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text} from "react-native";
 import StreakCounter from "./StreakCounter";
 
-const Nav = ()=>{
+const Header = ()=>{
     return(
         <View style={styles.mainContainer}>
             <View style={styles.header}>
@@ -10,6 +10,10 @@ const Nav = ()=>{
                     <Text style={styles.headingText}>HabitProgressor</Text>
                 </View>
                 <StreakCounter/>
+                <View style={styles.operationBtnsContainer}>
+                    <Text style={{color:'#0EC64B', fontSize:45, ...styles.operationBtn}}>+</Text>
+                    <Text style={{color:'#F3061A', fontSize:45, ...styles.operationBtn}}>-</Text>
+                </View>
             </View>
         </View>
     );
@@ -35,8 +39,22 @@ const styles = StyleSheet.create({
     },
     headingText:{
         color:"#fff",
-        fontSize:25
+        fontSize:25,
+    },
+    operationBtnsContainer:{
+        flex:1,
+        flexDirection:"row",
+        gap:15,
+        alignSelf:"flex-end",
+        marginRight:50
+    },
+    operationBtn:{
+        flex:1,
+        maxWidth:50,
+        textAlign:"center",
+        borderWidth:2,
+        borderColor:'red'
     }
 });
 
-export default Nav;
+export default Header;
