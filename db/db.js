@@ -44,9 +44,33 @@ const getAllHabits = (successCallback, errorCallback) => {
   })
 };
 
+/**
+ * Creates a brand new habit.
+ * @param {string} description - habit description.
+ * @param {number} streakCount - the amount of consecutive days the habits has been done.
+ * @param {boolean} doneToday - indicates whether the habit has been done today or not.
+ * @param {function} successCallback - function that accepts the newly inserted habit's ID.
+ * @param {function} errorCallback - function that accepts the error message.
+ * @returns {number} The sum of the two numbers.
+ */
+const createHabit = (description, streakCount, doneToday, successCallback, errorCallback) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "INSERT INTO Habits (description, streakCount, doneToday) VALUES (?,?,?)",
+      [description, streakCount, doneToday],
+      (_, result) => {
+        successCallback(result.insertId); // Pass the newly inserted habit's ID to the callback
+      },
+      (_, err) => {
+        errorCallback(err);
+      }
+    );
+  });
+};
 
 module.exports = {
   initTables,
   insertTestData,
-  getAllHabits
+  getAllHabits,
+  createHabit
 }

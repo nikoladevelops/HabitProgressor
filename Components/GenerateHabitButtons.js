@@ -4,10 +4,20 @@ import { TouchableOpacity, Text, View, StyleSheet} from "react-native";
 import StreakCounter from "./StreakCounter";
 
 const GenerateHabitButtons = ({data})=>{
+    if (data.length === 0){
+        return <View><Text>No data available. Try creating some habits.</Text></View>
+    }
+
     const [buttonBackgroundColors, setButtonBackgroundColors] = useState(
         data.map((habit)=> habit.doneToday ? "#0EC64B" : "#F3061A")
     )
     
+    // If data changes, make sure to change the array of colors as well to match the amount of buttons/ color them accordingly
+    useEffect(()=>{
+        setButtonBackgroundColors(data.map((habit)=> habit.doneToday ? "#0EC64B" : "#F3061A"))
+    },
+    [data])
+
     const btnClicked = (index)=>{
         const newColors = [...buttonBackgroundColors]
 

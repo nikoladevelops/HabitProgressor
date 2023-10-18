@@ -1,23 +1,33 @@
-import React from "react";
+import React, {useContext, useState} from "react";
+import AllHabitsContext from "../Contexts/AllHabitsContext";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
+import {createHabit, getAllHabits} from "../db/db.js"
 
 const HabitModal = ({isVisible, onClose})=>{
+    const {setHabitData} = useContext(AllHabitsContext)
+    const [description, setDescription] = useState("")
+    const [streakCount, setStreakCount] = useState("")
+
     const createNewHabit = ()=>{
-        console.log('test')
+        createHabit(description, streakCount, 0,
+        ()=> {
+            getAllHabits((result)=>{setHabitData(result); onClose()})
+        },
+        (err)=> console.log(err))
     }
     return(
         <Modal style={styles.modal} isVisible={isVisible} backdropOpacity={0.9} animationIn="zoomIn"
         animationOut="slideOutDown" onRequestClose={onClose}>
-            <Text style={styles.modalText}>Add New Habit</Text>
+        <Text style={styles.modalText}>Add New Habit</Text>
             <View style={styles.inputContainer}>
-                <TextInput style={styles.textInput} placeholder="Habit" placeholderTextColor={"#505050"}>
+                <TextInput style={styles.textInput} placeholder="Habit" placeholderTextColor={"#505050"} onChangeText={setDescription}>
                 </TextInput>
-                <TextInput style={styles.textInput} keyboardType="numeric" placeholder="Streak Count" placeholderTextColor={"#505050"}>
+                <TextInput style={styles.textInput} keyboardType="numeric" placeholder="Streak Count" placeholderTextColor={"#505050"} onChangeText={setStreakCount}>
                 </TextInput>
             </View>
             <View style={styles.operationBtnsContainer}>
-                <TouchableOpacity style={{backgroundColor:"green",...styles.operationBtn}}onPress={createNewHabit}>
+                <TouchableOpacity style={{backgroundColor:"green",...styles.operationBtn}} onPress={()=> createNewHabit() }>
                     <Text style={styles.btnText}>Create</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{backgroundColor:"#505050",...styles.operationBtn}} onPress={onClose}>
