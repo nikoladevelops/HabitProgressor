@@ -10,6 +10,7 @@ import AllHabitsContext from './Contexts/AllHabitsContext.js';
 
 export default function App() {
   var [habitData, setHabitData] = useState([])
+  var [inEditState, setInEditState] = useState(false)
   var [isLoading, setIsLoading] = useState(true)
 
   useEffect(()=>{
@@ -25,7 +26,7 @@ export default function App() {
   []);
   return (
     <ScrollView style={styles.container}>
-      <AllHabitsContext.Provider value={{habitData, setHabitData}}>
+      <AllHabitsContext.Provider value={{habitData, setHabitData, inEditState, setInEditState}}>
         <Settings/>
         <Header/>
         {isLoading?

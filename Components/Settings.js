@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AllHabitsContext from "../Contexts/AllHabitsContext";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import HabitModal from "./HabitModal";
 
 const Settings = ()=>{
     const [isModalVisible, setModalVisible] = useState(false)
+    const {inEditState, setInEditState} = useContext(AllHabitsContext)
 
     return(
         <View style={styles.container}>
@@ -11,7 +13,7 @@ const Settings = ()=>{
                 <TouchableOpacity style={styles.operationBtn} onPress={()=>{setModalVisible(true);}}>
                     <Text style={{color:'#0EC64B', fontSize:35}}>+</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.operationBtn}>
+                <TouchableOpacity style={styles.operationBtn} onPress = {()=>{setInEditState(!inEditState)}}>
                     <Text style={{color:'#F3061A', fontSize:35}}>-</Text>
                 </TouchableOpacity>
             </View>
