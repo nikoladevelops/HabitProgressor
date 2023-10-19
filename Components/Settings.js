@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import HabitModal from "./HabitModal";
+import HabitModal from "../Modals/HabitModal";
 
 const Settings = ()=>{
     const [isModalVisible, setModalVisible] = useState(false)

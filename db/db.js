@@ -46,11 +46,11 @@ const getAllHabits = (successCallback, errorCallback) => {
 
 /**
  * Creates a brand new habit.
- * @param {string} description - habit description.
- * @param {number} streakCount - the amount of consecutive days the habits has been done.
- * @param {boolean} doneToday - indicates whether the habit has been done today or not.
- * @param {function} successCallback - function that accepts the newly inserted habit's ID.
- * @param {function} errorCallback - function that accepts the error message.
+ * @param {string} description - Habit description.
+ * @param {number} streakCount - The amount of consecutive days the habits has been done.
+ * @param {boolean} doneToday - Indicates whether the habit has been done today or not.
+ * @param {function} successCallback - Function that accepts the newly inserted habit's ID.
+ * @param {function} errorCallback - Function that accepts the error message.
  * @returns {number} The sum of the two numbers.
  */
 const createHabit = (description, streakCount, doneToday, successCallback, errorCallback) => {
@@ -68,9 +68,37 @@ const createHabit = (description, streakCount, doneToday, successCallback, error
   });
 };
 
+/**
+ * Deletes a habit by its ID.
+ * @param {number} habitId - The ID of the habit to delete.
+ * @param {function} successCallback - Function to call on successful deletion.
+ * @param {function} errorCallback - Function to call on deletion error.
+ */
+const deleteHabitById = (habitId, successCallback, errorCallback) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "DELETE FROM Habits WHERE id = ?",
+      [habitId],
+      (_, result) => {
+        if (result.rowsAffected === 1) {
+          // Deletion successful
+          successCallback();
+        } else {
+          // Habit with the specified ID not found
+          errorCallback("Habit not found");
+        }
+      },
+      (_, err) => {
+        errorCallback(err);
+      }
+    );
+  });
+};
+
 module.exports = {
   initTables,
   insertTestData,
   getAllHabits,
-  createHabit
+  createHabit,
+  deleteHabitById
 }

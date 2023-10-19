@@ -1,12 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { View } from "react-native";
 import GenerateHabitButtons from "./GenerateHabitButtons";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
+import DeleteModal from "../Modals/DeleteModal.js"
 
 const AllHabitButtons = ()=>{
-    var {habitData, setHabitData} = useContext(AllHabitsContext)
-    
+    const {habitData, setHabitData} = useContext(AllHabitsContext)
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
+    const [habitId, setHabitId] = useState()
     return (
-        <GenerateHabitButtons data={habitData}/>
+      <View>
+        <GenerateHabitButtons data={habitData} openDeleteModal = {(id)=> 
+          {
+            setHabitId(id)
+            setIsDeleteModalVisible(true)
+          }}/>
+        <DeleteModal isVisible = {isDeleteModalVisible} onClose={()=>setIsDeleteModalVisible(false)} habitId={habitId} />
+      </View>
       );
 }
 

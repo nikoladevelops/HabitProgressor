@@ -4,7 +4,7 @@ import { TouchableOpacity, Text, View, StyleSheet} from "react-native";
 import StreakCounter from "./StreakCounter";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 
-const GenerateHabitButtons = ({data})=>{
+const GenerateHabitButtons = ({data, openDeleteModal})=>{
     if (data.length === 0){
         return <View><Text>No data available. Try creating some habits.</Text></View>
     }
@@ -41,8 +41,15 @@ const GenerateHabitButtons = ({data})=>{
             <TouchableOpacity key={index} onPress={btnClicked.bind(null, index)} style={{...styles.button, backgroundColor:buttonBackgroundColors[index]}}>
                 <View style={styles.buttonContent}>
                     <Text style={styles.text}>{habit.description}</Text>
-                    <View style={{alignSelf:"flex-start"}}>
+                    <View style={styles.habitDetails}>
                         <StreakCounter width={15} height={15} streakValue={habit.streakCount} fontSize={10}/>
+                        {inEditState ? 
+                        <View style={styles.deleteView}>
+                            <TouchableOpacity onPress={openDeleteModal.bind(null, habit.id)}>
+                                <Text style={styles.deleteBtnText}>Delete</Text>
+                            </TouchableOpacity>
+                        </View>
+                        :<></>}
                     </View>
                 </View>
             </TouchableOpacity>
@@ -77,6 +84,24 @@ var styles = StyleSheet.create({
     buttonContent:{
         flex:1,
         flexDirection:"column"
+    },
+    habitDetails:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"flex-start",
+        alignItems:"center"
+    },
+    deleteView:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"flex-end",
+        marginRight:15
+    },
+    deleteBtnText:{
+        color:"#F3061A",
+        textShadowColor: 'black',
+        textShadowRadius:3,
+        textShadowOffset:{width:1,height:2}
     }
 });
 export default GenerateHabitButtons;
