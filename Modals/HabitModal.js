@@ -2,19 +2,22 @@ import React, {useContext, useState} from "react";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
-import {createHabit, getAllHabits} from "../db/db.js"
+import {createHabitAsync, getAllHabitsAsync} from "../db/db.js"
 
 const HabitModal = ({isVisible, onClose})=>{
     const {setHabitData} = useContext(AllHabitsContext)
     const [description, setDescription] = useState("")
     const [streakCount, setStreakCount] = useState("")
 
-    const createNewHabit = ()=>{
-        createHabit(description, streakCount, 0,
-        ()=> {
-            getAllHabits((result)=>{setHabitData(result); onClose()})
-        },
-        (err)=> console.log(err))
+    const createNewHabit = async ()=>{
+        try{
+            await createHabitAsync(description, streakCount, null)
+            const allHabits = await getAllHabitsAsync()
+            setHabitData(allHabits);
+            onClose();
+        }catch(err){
+            console.log(err)
+        }
     }
     return(
         <Modal style={styles.modal} isVisible={isVisible} backdropOpacity={0.9} animationIn="zoomIn"
@@ -27,7 +30,7 @@ const HabitModal = ({isVisible, onClose})=>{
                 </TextInput>
             </View>
             <View style={styles.operationBtnsContainer}>
-                <TouchableOpacity style={{backgroundColor:"green",...styles.operationBtn}} onPress={()=> createNewHabit() }>
+                <TouchableOpacity style={{backgroundColor:"green",...styles.operationBtn}} onPress={()=> createNewHabit()}>
                     <Text style={styles.btnText}>Create</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{backgroundColor:"#505050",...styles.operationBtn}} onPress={onClose}>
@@ -82,4 +85,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HabitModal;;
+export default HabitModal;

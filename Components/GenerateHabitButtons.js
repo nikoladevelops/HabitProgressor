@@ -11,18 +11,37 @@ const GenerateHabitButtons = ({data, openDeleteModal})=>{
 
     const {inEditState} = useContext(AllHabitsContext)
 
-    const [buttonBackgroundColors, setButtonBackgroundColors] = useState(
-        data.map((habit)=> habit.doneToday ? "#0EC64B" : "#F3061A")
-    )
+    const [buttonBackgroundColors, setButtonBackgroundColors] = useState([])
     
     useEffect(() => {
+        const determineBtnColor = (habitDateISO)=>{
+            if (habitDateISO === null || habitDateISO === ""){
+                return "#F3061A"
+            }
+
+            const habitDate = new Date(habitDateISO)
+            const todayDate = new Date()
+
+            const habitDay = habitDate.getDate()
+            const habitMonth = habitDate.getMonth()
+            const habitYear = habitDate.getFullYear()
+
+            const todayDay = habitDate.getDate()
+            const todayMonth = habitDate.getMonth()
+            const todayYear = habitDate.getFullYear()
+
+            if (habitYear === todayYear && habitMonth === todayMonth && habitDay === todayDay){
+                return "#0EC64B"
+            }
+            return "#F3061A"
+        }
         if (inEditState) {
           setButtonBackgroundColors(data.map(() => "#505050"));
         } else {
           // Change button colors based on habit status
-          setButtonBackgroundColors(data.map(habit => habit.doneToday ? "#0EC64B" : "#F3061A"));
+          setButtonBackgroundColors(data.map((habit) => determineBtnColor(habit.lastCompletedDate) ))
         }
-      }, [data, inEditState]); // match the amount of colors with the amount of data/ when inEditState color the buttons in gray, otherwise color them according to their .doneToday prop.
+      }, [data, inEditState]); // match the amount of colors with the amount of data/ when inEditState color the buttons in gray, otherwise color them according to their lastCompletedDate
 
     const btnClicked = (index)=>{
         if (inEditState){
@@ -30,7 +49,7 @@ const GenerateHabitButtons = ({data, openDeleteModal})=>{
         }
         const newColors = [...buttonBackgroundColors]
 
-        newColors[index] = newColors[index] == "#F3061A" ? "#0EC64B" : "#F3061A"
+        newColors[index] = newColors[index] === "#F3061A" ? "#0EC64B" : "#F3061A"
 
         setButtonBackgroundColors(newColors)
     }

@@ -1,20 +1,19 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
-import {deleteHabitById, getAllHabits} from "../db/db.js"
+import {deleteHabitByIdAsync, getAllHabitsAsync} from "../db/db.js"
 
-const HabitModal = ({isVisible, onClose, habitId})=>{
+const DeleteModal = ({isVisible, onClose, habitId})=>{
     const {setHabitData} = useContext(AllHabitsContext)
 
     const deleteHabit = (id)=>{
-        console.log(id)
-        deleteHabitById(id,
-        ()=> {
-            getAllHabits((result)=>{setHabitData(result); onClose()})
-        },
-        (err)=> console.log(err))
+        deleteHabitByIdAsync(id)
+        .then(()=>getAllHabitsAsync())
+        .then((result)=>{setHabitData(result); onClose()})
+        .catch((err)=>console.log(err))
     }
+
     return(
         <Modal style={styles.modal} isVisible={isVisible} backdropOpacity={0.9} animationIn="zoomIn"
         animationOut="slideOutDown" onRequestClose={onClose}>
@@ -63,4 +62,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HabitModal;;
+export default DeleteModal;
