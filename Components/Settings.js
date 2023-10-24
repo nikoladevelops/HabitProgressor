@@ -17,8 +17,8 @@ const Settings = ()=>{
                     <Text style={{color:'#F3061A', fontSize:35}}>-</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={{marginRight:30}}>
-                <Text style={styles.settingsText}>Settings</Text>
+            <TouchableOpacity style={styles.settingsBtn}>
+                <Text style={styles.settingsBtnText}>Settings</Text>
             </TouchableOpacity>
             <HabitModal isVisible={isModalVisible} onClose={()=>setModalVisible(false)}/>
         </View>
@@ -34,10 +34,6 @@ const styles = StyleSheet.create({
         paddingBottom:"5%",
         backgroundColor:"black",
     },
-    settingsText:{
-        color:"#fff",
-        fontSize:20
-    },
     operationBtnsContainer:{
         flex:1,
         flexDirection:"row",
@@ -52,6 +48,19 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:'white',
         borderStyle:"dotted"
+    },
+    settingsBtn:{
+        marginRight:30,
+        backgroundColor:"#505050",
+        padding:5,
+        borderWidth:1,
+        borderColor:"#fff",
+        borderStyle:"dotted",
+        position:"relative"
+    },
+    settingsBtnText:{
+        color:"#fff",
+        fontSize:20
     }
 });
 export default Settings;
