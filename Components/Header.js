@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Text} from "react-native";
-import StreakCounter from "./StreakCounter";
 
 const Header = ()=>{
     return(
@@ -9,7 +8,6 @@ const Header = ()=>{
                 <View style={styles.titleContainer}>
                     <Text style={styles.headingText}>HabitProgressor</Text>
                 </View>
-                <StreakCounter/>
             </View>
         </View>
     );
