@@ -3,8 +3,9 @@ import { TouchableOpacity, Text, View, StyleSheet} from "react-native";
 
 import StreakCounter from "./StreakCounter";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
+import { markHabitAsCompletedTodayAsync } from "../db/db";
 
-const GenerateHabitButtons = ({data, openDeleteModal})=>{
+const GenerateHabitButtons = ({data, refreshData, openDeleteModal})=>{
     if (data.length === 0){
         return <View><Text>No data available. Try creating some habits.</Text></View>
     }
@@ -13,51 +14,57 @@ const GenerateHabitButtons = ({data, openDeleteModal})=>{
 
     const [buttonBackgroundColors, setButtonBackgroundColors] = useState([])
     
-    useEffect(() => {
-        const determineBtnColor = (habitDateISO)=>{
-            if (habitDateISO === null || habitDateISO === ""){
-                return "#F3061A"
-            }
-
-            const habitDate = new Date(habitDateISO)
-            const todayDate = new Date()
-
-            const habitDay = habitDate.getDate()
-            const habitMonth = habitDate.getMonth()
-            const habitYear = habitDate.getFullYear()
-
-            const todayDay = habitDate.getDate()
-            const todayMonth = habitDate.getMonth()
-            const todayYear = habitDate.getFullYear()
-
-            if (habitYear === todayYear && habitMonth === todayMonth && habitDay === todayDay){
-                return "#0EC64B"
-            }
-            return "#F3061A"
+    const checkIfDateISOIsToday = (habitDateISO)=>{
+        if (habitDateISO === null || habitDateISO === ""){
+            return false
         }
+
+        const habitDate = new Date(habitDateISO)
+        const todayDate = new Date()
+
+        const habitDay = habitDate.getDate()
+        const habitMonth = habitDate.getMonth()
+        const habitYear = habitDate.getFullYear()
+
+        const todayDay = todayDate.getDate()
+        const todayMonth = todayDate.getMonth()
+        const todayYear = todayDate.getFullYear()
+
+        if (habitYear === todayYear && habitMonth === todayMonth && habitDay === todayDay){
+            return true
+        }
+        return false
+    }
+
+    useEffect(() => {
         if (inEditState) {
           setButtonBackgroundColors(data.map(() => "#505050"));
         } else {
           // Change button colors based on habit status
-          setButtonBackgroundColors(data.map((habit) => determineBtnColor(habit.lastCompletedDate) ))
+          setButtonBackgroundColors(data.map((habit) => checkIfDateISOIsToday(habit.lastCompletedDate) ? "#0EC64B" : "#F3061A" ))
         }
       }, [data, inEditState]); // match the amount of colors with the amount of data/ when inEditState color the buttons in gray, otherwise color them according to their lastCompletedDate
 
-    const btnClicked = (index)=>{
-        if (inEditState){
+    const btnClicked = async (index, habit)=>{
+        // If in the edit state or if the lastCompletedDate is equal to today, don't do anything.
+        if (inEditState || checkIfDateISOIsToday(habit.lastCompletedDate)){
             return
         }
-        const newColors = [...buttonBackgroundColors]
 
-        newColors[index] = newColors[index] === "#F3061A" ? "#0EC64B" : "#F3061A"
-
-        setButtonBackgroundColors(newColors)
+        try {
+            await markHabitAsCompletedTodayAsync(habit.id, habit.streakCount)
+            const newColors = [...buttonBackgroundColors]
+            newColors[index] = "#0EC64B"
+            refreshData()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return(
         <View style={styles.allHabitBtnContainer}>
           {data.map((habit, index) => (
-            <TouchableOpacity key={index} onPress={btnClicked.bind(null, index)} style={{...styles.button, backgroundColor:buttonBackgroundColors[index]}}>
+            <TouchableOpacity key={index} onPress={()=>btnClicked(index, habit)} style={{...styles.button, backgroundColor:buttonBackgroundColors[index]}}>
                 <View style={styles.buttonContent}>
                     <Text style={styles.text}>{habit.description}</Text>
                     <View style={styles.habitDetails}>

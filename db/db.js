@@ -93,6 +93,25 @@ export const createHabitAsync = (description, streakCount, lastCompletedDate) =>
   })
 };
 
+
+/**
+ * Mark a habit as completed today.
+ * @param {number} habitId The ID of the habit to mark as complete.
+ * @param {number} currentStreakCount The current streak count of the habit.
+ * @returns {Promise<void>} A Promise that resolves on successful change of the lastCompletedDate value.
+ */
+export const markHabitAsCompletedTodayAsync = (habitId, currentStreakCount)=>{
+  return new Promise((resolve,reject)=>{
+    db.transaction((tx)=>{
+      tx.executeSql("UPDATE Habits SET lastCompletedDate=?, streakCount=? WHERE id = ?",
+        [new Date().toISOString(), currentStreakCount+1, habitId],
+        ()=>resolve(),
+        (err)=>reject(err)
+      )
+    })
+  })
+}
+
 /**
  * Delete a habit by its ID.
  * @param {number} habitId The ID of the habit to delete.

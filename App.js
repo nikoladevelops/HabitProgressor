@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import AllHabitButtons from './Components/AllHabitButtons.js';
 import Header from "./Components/Header.js"
 import Settings from './Components/Settings.js';
@@ -15,7 +15,6 @@ export default function App() {
 
   useEffect(()=>{
     async function initialize(){
-      await dropHabitsAsync()
       await initTables()
       const countHabits = await checkHabitsCountAsync()
       if (countHabits === 0){
@@ -48,17 +47,17 @@ export default function App() {
   },
   []);
   return (
-    <ScrollView style={styles.container}>
-      <AllHabitsContext.Provider value={{habitData, setHabitData, inEditState, setInEditState}}>
-        <Settings/>
-        <Header/>
-        {isLoading?
-        <View style={{flex:1, minHeight:500, backgroundColor:"white", justifyContent:"center", alignItems:"center"}}>
-          <Text style={{color:'black', fontSize:33}}>Loading...</Text>
-        </View> : <AllHabitButtons/>}
-      </AllHabitsContext.Provider>
-      <StatusBar style="auto" />
-    </ScrollView>
+      <ScrollView style={styles.container}>
+        <AllHabitsContext.Provider value={{habitData, setHabitData, inEditState, setInEditState}}>
+          <Settings/>
+          <Header/>
+          {isLoading?
+          <View style={{flex:1, minHeight:500, backgroundColor:"white", justifyContent:"center", alignItems:"center"}}>
+            <Text style={{color:'black', fontSize:33}}>Loading...</Text>
+          </View> : <AllHabitButtons/>}
+        </AllHabitsContext.Provider>
+        <StatusBar style="auto" />
+      </ScrollView>
   );
 }
 

@@ -4,13 +4,15 @@ import GenerateHabitButtons from "./GenerateHabitButtons";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 import DeleteModal from "../Modals/DeleteModal.js"
 
+import { getAllHabitsAsync } from "../db/db";
+
 const AllHabitButtons = ()=>{
     const {habitData, setHabitData} = useContext(AllHabitsContext)
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
     const [habitId, setHabitId] = useState()
     return (
       <View>
-        <GenerateHabitButtons data={habitData} openDeleteModal = {(id)=> 
+        <GenerateHabitButtons data={habitData} refreshData={async ()=>setHabitData(await getAllHabitsAsync())} openDeleteModal = {(id)=> 
           {
             setHabitId(id)
             setIsDeleteModalVisible(true)
