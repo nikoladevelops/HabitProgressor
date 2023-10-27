@@ -70,6 +70,27 @@ export const getAllHabitsAsync = () => {
 };
 
 /**
+ * End the streaks of habits with `lastCompletedDate` older than yesterday.
+ * @returns {Promise<void>} A Promise that resolves when the update is completed successfully.
+ */
+export const endStreaksOfHabitsAsync = () => {
+  // Calculate the date for yesterday
+  const yesterdayDate = new Date();
+  yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "UPDATE Habits SET lastCompletedDate=NULL, streakCount=0 WHERE lastCompletedDate < ?",
+        [yesterdayDate.toISOString()],
+        () => resolve(),
+        (err) => reject(err)
+      );
+    });
+  });
+};
+
+/**
  * Create a brand new habit.
  * @param {string} description Habit description.
  * @param {number} streakCount The amount of consecutive days the habits has been done.
