@@ -22,18 +22,7 @@ const GenerateHabitButtons = ({data, refreshData, openDeleteModal})=>{
         const habitDate = new Date(habitDateISO)
         const todayDate = new Date()
 
-        const habitDay = habitDate.getDate()
-        const habitMonth = habitDate.getMonth()
-        const habitYear = habitDate.getFullYear()
-
-        const todayDay = todayDate.getDate()
-        const todayMonth = todayDate.getMonth()
-        const todayYear = todayDate.getFullYear()
-
-        if (habitYear === todayYear && habitMonth === todayMonth && habitDay === todayDay){
-            return true
-        }
-        return false
+        return habitDate.toDateString() === todayDate.toDateString()
     }
 
     useEffect(() => {
