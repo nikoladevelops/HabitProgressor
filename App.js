@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import AllHabitButtons from './Components/AllHabitButtons.js';
 import Header from "./Components/Header.js"
 import Settings from './Components/Settings.js';
-import {initTables, getAllHabitsAsync} from "./db/db.js"
+import {initTables, getAllHabitsAsync, endStreaksOfHabitsAsync} from "./db/db.js"
 import React,{ useEffect, useState } from 'react';
 
 import AllHabitsContext from './Contexts/AllHabitsContext.js';
@@ -16,6 +16,7 @@ export default function App() {
   useEffect(()=>{
     async function initialize(){
       await initTables()
+      await endStreaksOfHabitsAsync()
       var allHabits = await getAllHabitsAsync()
       setHabitData(allHabits)
       setIsLoading(false)
