@@ -79,7 +79,7 @@ var styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"center",
         alignItems:"center",
-        minHeight:45,
+        minHeight:65,
         borderRadius:18,
         padding:10
     },
@@ -88,6 +88,7 @@ var styles = StyleSheet.create({
         alignSelf:"center",
         color:"#fff",
         fontSize:19,
+        textAlign:"center"
     },
     allHabitBtnContainer:{
         flex:1,
@@ -104,7 +105,8 @@ var styles = StyleSheet.create({
         flex:1,
         flexDirection:"row",
         justifyContent:"flex-start",
-        alignItems:"center"
+        alignItems:"center",
+        minHeight:19
     },
     deleteView:{
         flex:1,
