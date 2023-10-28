@@ -5,11 +5,7 @@ import StreakCounter from "./StreakCounter";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 import { markHabitAsCompletedTodayAsync } from "../db/db";
 
-const GenerateHabitButtons = ({data, refreshData, openDeleteModal})=>{
-    if (data.length === 0){
-        return <View><Text>No data available. Try creating some habits.</Text></View>
-    }
-
+const GenerateHabitButtons = ({data, refreshData, openDeleteModal, openEditModal})=>{
     const {inEditState} = useContext(AllHabitsContext)
 
     const [buttonBackgroundColors, setButtonBackgroundColors] = useState([])
@@ -60,6 +56,9 @@ const GenerateHabitButtons = ({data, refreshData, openDeleteModal})=>{
                         <StreakCounter width={15} height={15} streakValue={habit.streakCount} fontSize={10}/>
                         {inEditState ? 
                         <View style={styles.deleteView}>
+                            <TouchableOpacity onPress={openEditModal.bind(null, habit.id, habit.description)}>
+                                <Text style={styles.editBtnText}>Edit</Text>
+                            </TouchableOpacity>
                             <TouchableOpacity onPress={openDeleteModal.bind(null, habit.id)}>
                                 <Text style={styles.deleteBtnText}>Delete</Text>
                             </TouchableOpacity>
@@ -112,10 +111,17 @@ var styles = StyleSheet.create({
         flex:1,
         flexDirection:"row",
         justifyContent:"flex-end",
-        marginRight:15
+        marginRight:15,
+        gap:15
     },
     deleteBtnText:{
         color:"#F3061A",
+        textShadowColor: 'black',
+        textShadowRadius:3,
+        textShadowOffset:{width:1,height:2}
+    },
+    editBtnText:{
+        color:"yellow",
         textShadowColor: 'black',
         textShadowRadius:3,
         textShadowOffset:{width:1,height:2}

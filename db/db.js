@@ -114,6 +114,24 @@ export const createHabitAsync = (description, streakCount, lastCompletedDate) =>
   })
 };
 
+/**
+ * Updates the description of a habit in an asynchronous manner.
+ * @param {number} habitId The ID of the habit to update.
+ * @param {string} newDescription  The new description for the habit.
+ * @returns {Promise<void>} A Promise that resolves when the update is successful and rejects with an error if there's a problem.
+ */
+export const updateHabitDescriptionAsync = (habitId, newDescription) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "UPDATE Habits SET description=? WHERE id=?",
+        [newDescription, habitId],
+        () => resolve(),
+        (err) => reject(err)
+      );
+    });
+  });
+};
 
 /**
  * Mark a habit as completed today.

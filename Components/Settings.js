@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import HabitModal from "../Modals/HabitModal";
+import CreateHabitModal from "../Modals/CreateHabitModal";
 
 const Settings = ()=>{
     const [isModalVisible, setModalVisible] = useState(false)
@@ -20,7 +20,7 @@ const Settings = ()=>{
             <TouchableOpacity style={styles.settingsBtn}>
                 <Text style={styles.settingsBtnText}>Settings</Text>
             </TouchableOpacity>
-            <HabitModal isVisible={isModalVisible} onClose={()=>setModalVisible(false)}/>
+            <CreateHabitModal isVisible={isModalVisible} onClose={()=>setModalVisible(false)}/>
         </View>
     );
 }

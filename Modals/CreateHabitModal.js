@@ -4,14 +4,13 @@ import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
 import {createHabitAsync, getAllHabitsAsync} from "../db/db.js"
 
-const HabitModal = ({isVisible, onClose})=>{
+const CreateHabitModal = ({isVisible, onClose})=>{
     const {setHabitData} = useContext(AllHabitsContext)
     const [description, setDescription] = useState("")
-    const [streakCount, setStreakCount] = useState("")
 
     const createNewHabit = async ()=>{
         try{
-            await createHabitAsync(description, streakCount, null)
+            await createHabitAsync(description, 0, null)
             const allHabits = await getAllHabitsAsync()
             setHabitData(allHabits);
             onClose();
@@ -22,11 +21,9 @@ const HabitModal = ({isVisible, onClose})=>{
     return(
         <Modal style={styles.modal} isVisible={isVisible} backdropOpacity={0.9} animationIn="zoomIn"
         animationOut="slideOutDown" onRequestClose={onClose}>
-        <Text style={styles.modalText}>Add New Habit</Text>
+        <Text style={styles.modalText}>Create New Habit</Text>
             <View style={styles.inputContainer}>
                 <TextInput style={styles.textInput} placeholder="Habit" placeholderTextColor={"#505050"} onChangeText={setDescription}>
-                </TextInput>
-                <TextInput style={styles.textInput} keyboardType="numeric" placeholder="Streak Count" placeholderTextColor={"#505050"} onChangeText={setStreakCount}>
                 </TextInput>
             </View>
             <View style={styles.operationBtnsContainer}>
@@ -85,4 +82,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HabitModal;
+export default CreateHabitModal;

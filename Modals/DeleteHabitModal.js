@@ -4,7 +4,7 @@ import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
 import {deleteHabitByIdAsync, getAllHabitsAsync} from "../db/db.js"
 
-const DeleteModal = ({isVisible, onClose, habitId})=>{
+const DeleteHabitModal = ({isVisible, onClose, habitId})=>{
     const {setHabitData} = useContext(AllHabitsContext)
 
     const deleteHabit = (id)=>{
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DeleteModal;
+export default DeleteHabitModal;
