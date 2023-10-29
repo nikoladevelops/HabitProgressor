@@ -4,14 +4,12 @@ import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
 import {updateHabitDescriptionAsync, getAllHabitsAsync} from "../db/db.js"
 
-const EditHabitModal = ({isVisible, onClose, habitId, habitDescription})=>{
+const EditHabitModal = ({isVisible, onClose, habitId, habitDescription, setDescription})=>{
     const {setHabitData} = useContext(AllHabitsContext)
-    const [description, setDescription] = useState(habitDescription)
 
     const editHabit = async ()=>{
-        console.log('edit complete')
         try{
-            await updateHabitDescriptionAsync(habitId, description)
+            await updateHabitDescriptionAsync(habitId, habitDescription)
             const allHabits = await getAllHabitsAsync()
             setHabitData(allHabits);
             onClose();

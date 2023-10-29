@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
@@ -14,6 +14,7 @@ const CreateHabitModal = ({isVisible, onClose})=>{
             const allHabits = await getAllHabitsAsync()
             setHabitData(allHabits);
             onClose();
+            setDescription("") // Make sure to reset the state, so it doesn't remember the past description
         }catch(err){
             console.log(err)
         }

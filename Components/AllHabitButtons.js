@@ -19,7 +19,7 @@ const AllHabitButtons = ()=>{
     
     // State needed for both
     const [habitId, setHabitId] = useState()
-    // your todo is to instead add the edit habitasync functionality and also make sure to always disable the button when an operation is performed to avoid bugs.
+    
     return (
       <View>
         {habitData.length === 0 ?
@@ -36,7 +36,6 @@ const AllHabitButtons = ()=>{
               }
             }
             openEditModal={(id, desc)=>{
-              console.log('just testing')
                 setHabitId(id)
                 setHabitDescription(desc)
                 setIsEditModalVisible(true)
@@ -46,7 +45,7 @@ const AllHabitButtons = ()=>{
         } 
         
         <DeleteHabitModal isVisible = {isDeleteModalVisible} onClose={()=>setIsDeleteModalVisible(false)} habitId={habitId} />
-        <EditHabitModal isVisible={isEditModalVisible} onClose={()=>setIsEditModalVisible(false)} habitId={habitId} habitDescription={habitDescription}/>
+        <EditHabitModal isVisible={isEditModalVisible} onClose={()=>setIsEditModalVisible(false)} habitId={habitId} habitDescription={habitDescription} setDescription={setHabitDescription}/>
         </View>
       );
 }
