@@ -56,10 +56,10 @@ const GenerateHabitButtons = ({data, refreshData, openDeleteModal, openEditModal
                         <StreakCounter width={15} height={15} streakValue={habit.streakCount} fontSize={10}/>
                         {inEditState ? 
                         <View style={styles.deleteView}>
-                            <TouchableOpacity onPress={openEditModal.bind(null, habit.id, habit.description)}>
+                            <TouchableOpacity onPress={()=>openEditModal(habit)}>
                                 <Text style={styles.editBtnText}>Edit</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={openDeleteModal.bind(null, habit.id)}>
+                            <TouchableOpacity onPress={()=>openDeleteModal(habit)}>
                                 <Text style={styles.deleteBtnText}>Delete</Text>
                             </TouchableOpacity>
                         </View>
@@ -78,7 +78,7 @@ var styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"center",
         alignItems:"center",
-        minHeight:65,
+        minHeight:66,
         borderRadius:18,
         padding:10
     },

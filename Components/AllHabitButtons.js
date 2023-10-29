@@ -15,10 +15,9 @@ const AllHabitButtons = ()=>{
     
     // State needed for EditHabitModal
     const [isEditModalVisible, setIsEditModalVisible] = useState(false)
-    const [habitDescription, setHabitDescription] = useState("")
     
-    // State needed for both
-    const [habitId, setHabitId] = useState()
+    // The current habit trying to edit/delete
+    const [habit, setHabit] = useState(null)
     
     return (
       <View>
@@ -29,23 +28,25 @@ const AllHabitButtons = ()=>{
           :
           <GenerateHabitButtons data={habitData}
             refreshData={async ()=>setHabitData(await getAllHabitsAsync())}
-            openDeleteModal = {(id)=> 
+            openDeleteModal = {(habit)=> 
               {
-                setHabitId(id)
+                setHabit(habit)
                 setIsDeleteModalVisible(true)
               }
             }
-            openEditModal={(id, desc)=>{
-                setHabitId(id)
-                setHabitDescription(desc)
+            openEditModal={(habit)=>{
+                setHabit(habit)
                 setIsEditModalVisible(true)
               }
             }
           />
         } 
-        
-        <DeleteHabitModal isVisible = {isDeleteModalVisible} onClose={()=>setIsDeleteModalVisible(false)} habitId={habitId} />
-        <EditHabitModal isVisible={isEditModalVisible} onClose={()=>setIsEditModalVisible(false)} habitId={habitId} habitDescription={habitDescription} setDescription={setHabitDescription}/>
+        {habit === null ? <></> : 
+        <View>
+          <DeleteHabitModal isVisible={isDeleteModalVisible} onClose={()=>setIsDeleteModalVisible(false)} habitId={habit.id} />
+          <EditHabitModal isVisible={isEditModalVisible} onClose={()=>setIsEditModalVisible(false)} habit={habit}/>
+        </View>
+        }
         </View>
       );
 }

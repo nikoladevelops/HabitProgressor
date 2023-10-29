@@ -1,15 +1,20 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import AllHabitsContext from "../Contexts/AllHabitsContext";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
 import {updateHabitDescriptionAsync, getAllHabitsAsync} from "../db/db.js"
 
-const EditHabitModal = ({isVisible, onClose, habitId, habitDescription, setDescription})=>{
+const EditHabitModal = ({isVisible, onClose, habit})=>{
     const {setHabitData} = useContext(AllHabitsContext)
+    const [habitDescription, setHabitDescription] = useState(habit.description)
+    
+    useEffect(()=>{
+        setHabitDescription(habit.description)
+    },[habit])
 
     const editHabit = async ()=>{
         try{
-            await updateHabitDescriptionAsync(habitId, habitDescription)
+            await updateHabitDescriptionAsync(habit.id, habitDescription)
             const allHabits = await getAllHabitsAsync()
             setHabitData(allHabits);
             onClose();
@@ -22,7 +27,7 @@ const EditHabitModal = ({isVisible, onClose, habitId, habitDescription, setDescr
         animationOut="slideOutDown" onRequestClose={onClose}>
         <Text style={styles.modalText}>Edit Habit</Text>
             <View style={styles.inputContainer}>
-                <TextInput style={styles.textInput} defaultValue={habitDescription} placeholder="Habit" placeholderTextColor={"#505050"} onChangeText={setDescription}>
+                <TextInput style={styles.textInput} defaultValue={habitDescription} placeholder="Habit" placeholderTextColor={"#505050"} onChangeText={setHabitDescription}>
                 </TextInput>
             </View>
             <View style={styles.operationBtnsContainer}>
