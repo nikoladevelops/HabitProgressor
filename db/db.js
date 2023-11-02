@@ -77,7 +77,8 @@ export const endStreaksOfHabitsAsync = () => {
   // Calculate the date for yesterday
   const yesterdayDate = new Date();
   yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-
+  yesterdayDate.setHours(0,0,0)
+  
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
