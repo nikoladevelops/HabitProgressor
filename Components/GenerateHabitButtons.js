@@ -1,76 +1,121 @@
-import React, { useEffect, useState, useContext } from "react";
-import { TouchableOpacity, Text, View, StyleSheet} from "react-native";
-
+import React, { useEffect, useState, useCallback, useMemo } from "react";
+import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import StreakCounter from "./StreakCounter";
-import AllHabitsContext from "../Contexts/AllHabitsContext";
-import { markHabitAsCompletedTodayAsync } from "../db/db";
+import DeleteHabitModal from "../Modals/DeleteHabitModal";
+import EditHabitModal from "../Modals/EditHabitModal";
+import { useHabitsState } from "../Contexts/AllHabitsContext";
+import { markHabitAsCompletedTodayAsync, getAllHabitsAsync } from "../db/db";
 
-const GenerateHabitButtons = ({data, refreshData, openDeleteModal, openEditModal})=>{
-    const {inEditState} = useContext(AllHabitsContext)
 
-    const [buttonBackgroundColors, setButtonBackgroundColors] = useState([])
-    
-    const checkIfDateISOIsToday = (habitDateISO)=>{
-        if (habitDateISO === null || habitDateISO === ""){
-            return false
-        }
-
-        const habitDate = new Date(habitDateISO)
-        const todayDate = new Date()
-
-        return habitDate.toDateString() === todayDate.toDateString()
-    }
-
-    useEffect(() => {
-        if (inEditState) {
-          setButtonBackgroundColors(data.map(() => "#505050"));
-        } else {
-          // Change button colors based on habit status
-          setButtonBackgroundColors(data.map((habit) => checkIfDateISOIsToday(habit.lastCompletedDate) ? "#0EC64B" : "#F3061A" ))
-        }
-      }, [data, inEditState]); // match the amount of colors with the amount of data/ when inEditState color the buttons in gray, otherwise color them according to their lastCompletedDate
-
-    const btnClicked = async (index, habit)=>{
-        // If in the edit state or if the lastCompletedDate is equal to today, don't do anything.
-        if (inEditState || checkIfDateISOIsToday(habit.lastCompletedDate)){
-            return
-        }
-
-        try {
-            await markHabitAsCompletedTodayAsync(habit.id, habit.streakCount)
-            const newColors = [...buttonBackgroundColors]
-            newColors[index] = "#0EC64B"
-            refreshData()
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    return(
-        <View style={styles.allHabitBtnContainer}>
-          {data.map((habit, index) => (
-            <TouchableOpacity key={index} onPress={()=>btnClicked(index, habit)} style={{...styles.button, backgroundColor:buttonBackgroundColors[index]}}>
-                <View style={styles.buttonContent}>
-                    <Text style={styles.text}>{habit.description}</Text>
-                    <View style={styles.habitDetails}>
-                        <StreakCounter width={15} height={15} streakValue={habit.streakCount} fontSize={10}/>
-                        {inEditState ? 
-                        <View style={styles.deleteView}>
-                            <TouchableOpacity onPress={()=>openEditModal(habit)}>
-                                <Text style={styles.editBtnText}>Edit</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>openDeleteModal(habit)}>
-                                <Text style={styles.deleteBtnText}>Delete</Text>
-                            </TouchableOpacity>
-                        </View>
-                        :<></>}
-                    </View>
-                </View>
-            </TouchableOpacity>
-          ))}
+const HabitButton = ({ habit, buttonBackgroundColor, btnClicked, inEditState, openEditModal, openDeleteModal }) => {
+  return (
+    <TouchableOpacity
+      key={habit.id}
+      onPress={() => btnClicked(habit)}
+      style={{ ...styles.button, backgroundColor: buttonBackgroundColor }}
+    >
+      <View style={styles.buttonContent}>
+        <Text style={styles.text}>{habit.description}</Text>
+        <View style={styles.habitDetails}>
+          <StreakCounter width={15} height={15} streakValue={habit.streakCount} fontSize={10} />
+          {inEditState && (
+            <View style={styles.deleteView}>
+              <TouchableOpacity onPress={() => openEditModal(habit)}>
+                <Text style={styles.editBtnText}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => openDeleteModal(habit)}>
+                <Text style={styles.deleteBtnText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
-    );
-}
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const GenerateHabitButtons = ({ data }) => {
+  const { inEditState, setHabitData } = useHabitsState();
+
+  const [buttonBackgroundColors, setButtonBackgroundColors] = useState([]);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [habit, setHabit] = useState(null);
+
+  const refreshData = useCallback(async () => {
+    setHabitData(await getAllHabitsAsync());
+  }, []);
+
+  const checkIfDateISOIsToday = useCallback((habitDateISO) => {
+    if (!habitDateISO || habitDateISO === "") {
+      return false;
+    }
+  
+    const habitDate = new Date(habitDateISO);
+    const todayDate = new Date();
+  
+    return habitDate.toDateString() === todayDate.toDateString();
+  },[]);
+
+  useEffect(() => {
+    if (inEditState) {
+      setButtonBackgroundColors(data.map(() => "#505050"));
+    } else {
+      setButtonBackgroundColors(data.map((habit) => (checkIfDateISOIsToday(habit.lastCompletedDate) ? "#0EC64B" : "#F3061A")));
+    }
+  }, [data, inEditState]);
+
+  const btnClicked = useCallback(async (habit) => {
+    if (inEditState || checkIfDateISOIsToday(habit.lastCompletedDate)) {
+      return;
+    }
+
+    try {
+      await markHabitAsCompletedTodayAsync(habit.id, habit.streakCount);
+      refreshData();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [inEditState]);
+
+  const openDeleteModal = useCallback((habit) => {
+    setHabit(habit);
+    setIsDeleteModalVisible(true);
+  }, []);
+
+  const openEditModal = useCallback((habit) => {
+    setHabit(habit);
+    setIsEditModalVisible(true);
+  }, []);
+
+  const habitComponents = useMemo(() => {
+    return data.map((habit, index) => (
+      <HabitButton
+        key={habit.id}
+        habit={habit}
+        buttonBackgroundColor={buttonBackgroundColors[index]}
+        btnClicked={btnClicked}
+        inEditState={inEditState}
+        openEditModal={openEditModal}
+        openDeleteModal={openDeleteModal}
+      />
+    ));
+  }, [data, buttonBackgroundColors, inEditState, btnClicked]); // Don't re-generate the buttons unless these change
+
+  return (
+    <View style={styles.allHabitBtnContainer}>
+      {habitComponents}
+      {habit === null ? ( // when the state is null don't render things that depend on its values
+        <></>
+      ) : (
+        <View>
+          <DeleteHabitModal isVisible={isDeleteModalVisible} onClose={() => setIsDeleteModalVisible(false)} habitId={habit.id} />
+          <EditHabitModal isVisible={isEditModalVisible} onClose={() => setIsEditModalVisible(false)} habit={habit} />
+        </View>
+      )}
+    </View>
+  );
+};
 
 var styles = StyleSheet.create({
     button:{

@@ -1,12 +1,12 @@
-import React, {useContext} from "react";
-import AllHabitsContext from "../Contexts/AllHabitsContext";
+import React from "react";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
 import {deleteHabitByIdAsync, getAllHabitsAsync} from "../db/db.js"
+import {useHabitsState} from "../Contexts/AllHabitsContext";
 
 const DeleteHabitModal = ({isVisible, onClose, habitId})=>{
-    const {setHabitData} = useContext(AllHabitsContext)
-
+    const {setHabitData} = useHabitsState()
+    
     const deleteHabit = (id)=>{
         deleteHabitByIdAsync(id)
         .then(()=>getAllHabitsAsync())

@@ -1,11 +1,11 @@
-import React, {useContext, useEffect, useState} from "react";
-import AllHabitsContext from "../Contexts/AllHabitsContext";
+import React, { useEffect, useState} from "react";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
 import {updateHabitDescriptionAsync, getAllHabitsAsync} from "../db/db.js"
+import {useHabitsState} from "../Contexts/AllHabitsContext";
 
 const EditHabitModal = ({isVisible, onClose, habit})=>{
-    const {setHabitData} = useContext(AllHabitsContext)
+    const {setHabitData} = useHabitsState()
     const [habitDescription, setHabitDescription] = useState(habit.description)
     
     useEffect(()=>{

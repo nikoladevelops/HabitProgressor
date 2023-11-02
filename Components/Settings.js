@@ -1,16 +1,19 @@
-import React, { useState, useContext } from "react";
-import AllHabitsContext from "../Contexts/AllHabitsContext";
+import React, { useMemo, useState } from "react";
+import { useHabitsState } from "../Contexts/AllHabitsContext";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import CreateHabitModal from "../Modals/CreateHabitModal";
 
 const Settings = ()=>{
     const [isModalVisible, setModalVisible] = useState(false)
-    const {inEditState, setInEditState} = useContext(AllHabitsContext)
+    const {inEditState, setInEditState} = useHabitsState()
 
+    const showAddModal = ()=>{
+        setModalVisible(true)
+    }
     return(
         <View style={styles.container}>
             <View style={styles.operationBtnsContainer}>
-                <TouchableOpacity style={styles.operationBtn} onPress={()=>{setModalVisible(true);}}>
+                <TouchableOpacity style={styles.operationBtn} onPress={showAddModal}>
                     <Text style={{color:'#0EC64B', fontSize:35}}>+</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.operationBtn} onPress = {()=>{setInEditState(!inEditState)}}>
@@ -20,7 +23,7 @@ const Settings = ()=>{
             <TouchableOpacity style={styles.settingsBtn}>
                 <Text style={styles.settingsBtnText}>Settings</Text>
             </TouchableOpacity>
-            <CreateHabitModal isVisible={isModalVisible} onClose={()=>setModalVisible(false)}/>
+            <CreateHabitModal isVisible={isModalVisible} onClose={()=>{ setModalVisible(false)}}/>
         </View>
     );
 }
