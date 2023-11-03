@@ -1,29 +1,57 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useHabitsState } from "../Contexts/AllHabitsContext";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import CreateHabitModal from "../Modals/CreateHabitModal";
+import { useTopVisibleState } from "../Contexts/TopVisibleContext";
+import ArrowBtn from "./HelperComponents/ArrowBtn";
 
 const Settings = ()=>{
+    const {isVisible, setIsVisible} = useTopVisibleState()
     const [isModalVisible, setModalVisible] = useState(false)
     const {inEditState, setInEditState} = useHabitsState()
 
-    const showAddModal = ()=>{
+    const showAddModal = useCallback(()=>{
         setModalVisible(true)
-    }
+    },[])
+
+    const switchEditState = useCallback(()=>{
+        setInEditState(!inEditState)
+    },[inEditState])
+
+    const switchVisibility = useCallback(()=>{
+        setIsVisible(!isVisible)
+    },[isVisible])
+
+    const containerStyle = useMemo(()=>{
+        if (!isVisible){
+            return styles.container
+        }
+        else{
+            return {...styles.container, paddingBottom:"5%"}
+        }
+    },[isVisible])
+
     return(
-        <View style={styles.container}>
+        <View style={containerStyle}>
+            {isVisible?(
+            <>
             <View style={styles.operationBtnsContainer}>
                 <TouchableOpacity style={styles.operationBtn} onPress={showAddModal}>
                     <Text style={{color:'#0EC64B', fontSize:35}}>+</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.operationBtn} onPress = {()=>{setInEditState(!inEditState)}}>
+                <TouchableOpacity style={styles.operationBtn} onPress = {switchEditState}>
                     <Text style={{color:'#F3061A', fontSize:35}}>-</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.settingsBtn}>
-                <Text style={styles.settingsBtnText}>Settings</Text>
-            </TouchableOpacity>
-            <CreateHabitModal isVisible={isModalVisible} onClose={()=>{ setModalVisible(false)}}/>
+            <View style={{marginRight:20}}>
+                <ArrowBtn isArrowUp={true} onPressFunc={switchVisibility}/>
+            </View>
+            </>):(
+            <View>   
+                <ArrowBtn isArrowUp={false} onPressFunc={switchVisibility}/>
+            </View>
+            )}
+        <CreateHabitModal isVisible={isModalVisible} onClose={()=>{setModalVisible(false)}}/>
         </View>
     );
 }
@@ -33,8 +61,8 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:"row",
         alignItems:"center",
+        justifyContent:"center",
         paddingTop:"15%",
-        paddingBottom:"5%",
         backgroundColor:"black",
     },
     operationBtnsContainer:{
@@ -51,19 +79,6 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:'white',
         borderStyle:"dotted"
-    },
-    settingsBtn:{
-        marginRight:30,
-        backgroundColor:"#505050",
-        padding:5,
-        borderWidth:1,
-        borderColor:"#fff",
-        borderStyle:"dotted",
-        position:"relative"
-    },
-    settingsBtnText:{
-        color:"#fff",
-        fontSize:20
     }
 });
 export default Settings;

@@ -1,15 +1,19 @@
 import React from "react";
 import { StyleSheet, View, Text} from "react-native";
+import { useTopVisibleState } from "../Contexts/TopVisibleContext";
 
 const Header = ()=>{
+    const {isVisible} = useTopVisibleState()
+
     return(
+        isVisible ?
         <View style={styles.mainContainer}>
             <View style={styles.header}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.headingText}>HabitProgressor</Text>
                 </View>
             </View>
-        </View>
+        </View>:<></>
     );
 }
 

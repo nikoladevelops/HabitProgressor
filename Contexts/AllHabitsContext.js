@@ -3,12 +3,11 @@ import { createContext, useContext, useCallback, useState, useEffect, useMemo } 
 const AllHabitsContext = createContext();
 
 const useHabits = ()=>{
-
     const [habitData, setHabits] = useState("")
     const [inEditState, setEditState] = useState(false)
 
-    const setHabitData = useCallback((newData) => setHabits(newData))
-    const setInEditState = useCallback((isEditing) => setEditState(isEditing))
+    const setHabitData = useCallback((newData) => setHabits(newData), [])
+    const setInEditState = useCallback((isEditing) => setEditState(isEditing), [])
 
     return useMemo(()=>{
         return{
@@ -21,10 +20,10 @@ const useHabits = ()=>{
 }
 
 export const AllHabitsContextProvider = ({children})=>{
-    const {habitData, setHabitData, inEditState, setInEditState} = useHabits()
+    const stateObj = useHabits()
 
     return(
-    <AllHabitsContext.Provider value = {{habitData, setHabitData, inEditState, setInEditState}}>
+    <AllHabitsContext.Provider value = {stateObj}>
         {children}
     </AllHabitsContext.Provider>)
 }
