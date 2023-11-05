@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import AllHabitButtons from './Components/AllHabitButtons.js';
 import Header from "./Components/Header.js"
 import Settings from './Components/Settings.js';

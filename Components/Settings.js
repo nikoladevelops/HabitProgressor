@@ -1,14 +1,27 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useHabitsState } from "../Contexts/AllHabitsContext";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import CreateHabitModal from "../Modals/CreateHabitModal";
 import { useTopVisibleState } from "../Contexts/TopVisibleContext";
+import {usePushNotifications} from "../Utility/PushNotifications.js"
 import ArrowBtn from "./HelperComponents/ArrowBtn";
+import NotificationBtn from "./HelperComponents/NotificationBtn.js"
 
 const Settings = ()=>{
     const {isVisible, setIsVisible} = useTopVisibleState()
     const [isModalVisible, setModalVisible] = useState(false)
     const {inEditState, setInEditState} = useHabitsState()
+
+    const {areEnabled, setAreEnabled} = usePushNotifications()
+    
+    const toggleNotifications = useCallback(()=>{
+        if(areEnabled){
+            setAreEnabled(false)
+        }
+        else{
+            setAreEnabled(true)
+        }
+    },[areEnabled])
 
     const showAddModal = useCallback(()=>{
         setModalVisible(true)
@@ -42,6 +55,7 @@ const Settings = ()=>{
                 <TouchableOpacity style={styles.operationBtn} onPress = {switchEditState}>
                     <Text style={{color:'#F3061A', fontSize:35}}>-</Text>
                 </TouchableOpacity>
+                <NotificationBtn isBellOn={areEnabled} onPressFunc={toggleNotifications}/>
             </View>
             <View style={{marginRight:20}}>
                 <ArrowBtn isArrowUp={true} onPressFunc={switchVisibility}/>
@@ -72,10 +86,9 @@ const styles = StyleSheet.create({
         marginLeft:20
     },
     operationBtn:{
-        flex:1,
         alignItems:"center",
         justifyContent:"center",
-        maxWidth:50,
+        minWidth:50,
         borderWidth:1,
         borderColor:'white',
         borderStyle:"dotted"

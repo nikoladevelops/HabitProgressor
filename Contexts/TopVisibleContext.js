@@ -2,14 +2,15 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const TopVisibleContext = createContext()
+const storageKey = "isTopVisibleSetting"
 
 const useTopVisible = () =>{
     const [isVisible, setVisibility] = useState(false)
-
+    
     useEffect(()=>{
         const setIsVisibleInitialState = async ()=>{
             try {
-                const isTopVisibleSettingString = await AsyncStorage.getItem("isTopVisibleSetting")
+                const isTopVisibleSettingString = await AsyncStorage.getItem(storageKey)
                 const isTopVisibleSettingBool = isTopVisibleSettingString === "true"
                 
                 setVisibility(isTopVisibleSettingBool)
@@ -27,7 +28,7 @@ const useTopVisible = () =>{
     useEffect(()=>{
         const setIsTopVisibleSetting = async () => {
             try {
-                await AsyncStorage.setItem("isTopVisibleSetting", isVisible.toString())
+                await AsyncStorage.setItem(storageKey, isVisible.toString())
             } catch (err) {
                 console.log(err)
             }

@@ -20,6 +20,8 @@ export default ArrowBtn;
 
 const styles = StyleSheet.create({
     btn:{
-        minWidth:20
+        minWidth:30,
+        justifyContent:"center",
+        alignItems:"center",
     }
 })
