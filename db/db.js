@@ -138,14 +138,15 @@ export const updateHabitDescriptionAsync = (habitId, newDescription) => {
  * Mark a habit as completed today.
  * @param {number} habitId The ID of the habit to mark as complete.
  * @param {number} currentStreakCount The current streak count of the habit.
- * @returns {Promise<void>} A Promise that resolves on successful change of the lastCompletedDate value.
+ * @returns {Promise<string>} A Promise that resolves on successful change of the lastCompletedDate value. Returns the today date in ISO format that was used.
  */
 export const markHabitAsCompletedTodayAsync = (habitId, currentStreakCount)=>{
   return new Promise((resolve,reject)=>{
+    const dateTodayISO = new Date().toISOString()
     db.transaction((tx)=>{
       tx.executeSql("UPDATE Habits SET lastCompletedDate=?, streakCount=? WHERE id = ?",
-        [new Date().toISOString(), currentStreakCount+1, habitId],
-        ()=>resolve(),
+        [dateTodayISO, currentStreakCount+1, habitId],
+        ()=>resolve(dateTodayISO),
         (err)=>reject(err)
       )
     })

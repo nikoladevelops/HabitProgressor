@@ -4,7 +4,7 @@ import StreakCounter from "./StreakCounter";
 import DeleteHabitModal from "../Modals/DeleteHabitModal";
 import EditHabitModal from "../Modals/EditHabitModal";
 import { useHabitsState } from "../Contexts/AllHabitsContext";
-import { markHabitAsCompletedTodayAsync, getAllHabitsAsync } from "../db/db";
+import { markHabitAsCompletedTodayAsync } from "../db/db";
 
 const HabitButton = ({ habit, buttonBackgroundColor, btnClicked, inEditState, openEditModal, openDeleteModal }) => {
   return (
@@ -41,10 +41,6 @@ const GenerateHabitButtons = ({ data }) => {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [habit, setHabit] = useState(null);
 
-  const refreshData = useCallback(async () => {
-    setHabitData(await getAllHabitsAsync());
-  }, []);
-
   const checkIfDateISOIsToday = useCallback((habitDateISO) => {
     if (!habitDateISO || habitDateISO === "") {
       return false;
@@ -70,12 +66,18 @@ const GenerateHabitButtons = ({ data }) => {
     }
 
     try {
-      await markHabitAsCompletedTodayAsync(habit.id, habit.streakCount);
-      refreshData();
+      const dateTodayISO = await markHabitAsCompletedTodayAsync(habit.id, habit.streakCount);
+      setHabitData(data.map((currHabit)=>{
+        if (currHabit.id != habit.id){
+          return currHabit
+        }
+
+        return {...habit, lastCompletedDate:dateTodayISO, streakCount: habit.streakCount+1}
+      }))
     } catch (error) {
       console.log(error);
     }
-  }, [inEditState]);
+  }, [inEditState, data]);
 
   const openDeleteModal = useCallback((habit) => {
     setHabit(habit);
