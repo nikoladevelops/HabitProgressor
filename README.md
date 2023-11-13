@@ -13,9 +13,9 @@ Keep your motivation high with the unique streak tracking feature, inspired by S
 
 # Features
 - Simple UI with CRUD operations.
-- Streak tracking for individual habits.
+- Streak score tracking for individual habits.
 - The ability to show/hide the header (the preferred setting is saved automatically for next time).
-- Push notification every day and the ability to turn it ON/OFF.
+- Local notification every day and the ability to turn it ON/OFF (the preferred setting is saved automatically for next time).
 
 # How do I download?
 1. Make sure your device can install apps from unknown sources.

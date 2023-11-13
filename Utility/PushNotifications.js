@@ -7,25 +7,12 @@ const remindHabitsId = "remindHabitsCompletion"
 
 const storageKey = "notificationsEnabled"
 
-// When a notification is received successfully, schedule another one for midnight.
-const notificationReceived = async (notifId)=>{
-  if (notifId === remindHabitsId) {
-    try {
-      await scheduleNotification();
-    } catch (err) {
-      console.log(err)
-    }
-  }
-}
-
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
       shouldPlaySound: false,
       shouldSetBadge: false,
-    }),
-    handleSuccess:notificationReceived,
-    handleError: (err)=>console.log(err)
+    })
   });
 
 export const usePushNotifications = ()=>{
@@ -38,8 +25,9 @@ export const usePushNotifications = ()=>{
           const areNotifsEnabledBool = areNotifsEnabledString === "true"
           
           // Just in case the scheduled notifications got removed somehow and the storage doesn't match that, check if there really are any scheduled notifications according to the device.
-          const areScheduled = (await Notifications.getAllScheduledNotificationsAsync()).length > 0
-          
+          const allNotifs = await Notifications.getAllScheduledNotificationsAsync()
+          const areScheduled = allNotifs.length > 0
+
           setEnabled(areNotifsEnabledBool && areScheduled)
         } catch (err) {
          console.log(err) 
@@ -107,11 +95,13 @@ const grantPermissions = async ()=>{
 const scheduleNotification = async () => {
     const notificationContent = {
       title: "Don't forget to do your habits!",
-      body: 'You can start completing your daily habits right now.',
+      body: 'You can start completing your daily habits right now.'
     };
   
     const trigger = {
-      seconds: getTimeUntilTommorowInSeconds(), 
+      hour:0,
+      minute:0, 
+      repeats:true
     };
   
     await Notifications.scheduleNotificationAsync({
@@ -120,11 +110,3 @@ const scheduleNotification = async () => {
       identifier:remindHabitsId
     });
   };
-
-const getTimeUntilTommorowInSeconds = ()=>{
-  const dateTommorow = new Date()
-  dateTommorow.setDate(dateTommorow.getDate()+1)
-  dateTommorow.setHours(0,0,0,0)
-
-  return (dateTommorow.getTime() - new Date().getTime()) / 1000
-}
