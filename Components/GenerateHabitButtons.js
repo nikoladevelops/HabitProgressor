@@ -6,7 +6,6 @@ import EditHabitModal from "../Modals/EditHabitModal";
 import { useHabitsState } from "../Contexts/AllHabitsContext";
 import { markHabitAsCompletedTodayAsync, getAllHabitsAsync } from "../db/db";
 
-
 const HabitButton = ({ habit, buttonBackgroundColor, btnClicked, inEditState, openEditModal, openDeleteModal }) => {
   return (
     <TouchableOpacity
@@ -131,9 +130,9 @@ var styles = StyleSheet.create({
         flex:1,
         alignSelf:"center",
         color:"#fff",
-        fontSize:19,
+        fontSize:20,
         textAlign:"center",
-        fontFamily:"Lato-Regular"
+        fontFamily:"Montserrat-Regular"
     },
     allHabitBtnContainer:{
         flex:1,
@@ -165,14 +164,14 @@ var styles = StyleSheet.create({
         textShadowColor: 'black',
         textShadowRadius:3,
         textShadowOffset:{width:1,height:2},
-        fontFamily:"Lato-Regular"
+        fontFamily:"Montserrat-Medium"
     },
     editBtnText:{
         color:"yellow",
         textShadowColor: 'black',
         textShadowRadius:3,
         textShadowOffset:{width:1,height:2},
-        fontFamily:"Lato-Regular"
+        fontFamily:"Montserrat-Medium"
     }
 });
 export default GenerateHabitButtons;

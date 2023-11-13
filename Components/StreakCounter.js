@@ -6,7 +6,7 @@ const StreakCounter = ({width="32", height="32", streakValue=0, fontSize=20})=>{
     return (
         <View style={styles.streakContainer}>
             <FlameSvgIcon width={width} height={height}/>
-            <Text style={{fontSize:fontSize, ...styles.streakContainerText}}>{streakValue}</Text>
+            <Text style={{fontSize:fontSize,fontFamily:"Montserrat-Regular", ...styles.streakContainerText}}>{streakValue}</Text>
         </View>
     );
 }

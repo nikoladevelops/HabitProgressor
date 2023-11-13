@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         textAlign:"center",
         color:"#fff",
         fontSize:20,
-        fontFamily:"Lato-Light"
+        fontFamily:"Montserrat-Light"
     },
     operationBtnsContainer:{
         flexDirection:"row",
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     btnText:{
         color:"#fff",
         fontSize:18,
-        fontFamily:"Lato-Regular"
+        fontFamily:"Montserrat-Medium"
     },
     operationBtn:{
         borderWidth:1,

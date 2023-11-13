@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     modalText:{
         color:"#fff",
         fontSize:22,
-        fontFamily:"Lato-Light"
+        fontFamily:"Montserrat-Light"
     },
     inputContainer:{
         width:300,
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         borderColor:"#fff",
         borderStyle:"dashed",
         fontSize:22,
-        fontFamily:"Lato-Regular"
+        fontFamily:"Montserrat-Regular"
     },
     operationBtnsContainer:{
         flexDirection:"row",
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     btnText:{
         color:"#fff",
         fontSize:18,
-        fontFamily:"Lato-Regular"
+        fontFamily:"Montserrat-Medium"
     },
     operationBtn:{
         borderWidth:1,

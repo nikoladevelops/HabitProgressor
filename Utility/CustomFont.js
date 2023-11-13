@@ -2,8 +2,9 @@ import { useFonts } from "expo-font";
 
 export const useCustomFonts = ()=>{
     const [fontsLoaded] = useFonts({
-        "Lato-Regular": require("../fonts/Lato-Regular.ttf"),
-        "Lato-Light": require("../fonts/Lato-Light.ttf")
+        "Montserrat-Light":require("../fonts/Montserrat-Light.ttf"),
+        "Montserrat-Medium":require("../fonts/Montserrat-Medium.ttf"),
+        "Montserrat-Regular":require("../fonts/Montserrat-Regular.ttf")
     })
 
     return {fontsLoaded}
