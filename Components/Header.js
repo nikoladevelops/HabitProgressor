@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     headingText:{
         color:"#fff",
         fontSize:25,
+        fontFamily:"Lato-Light"
     }
 });
 

@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     modalText:{
         textAlign:"center",
         color:"#fff",
-        fontSize:20
+        fontSize:20,
+        fontFamily:"Lato-Light"
     },
     operationBtnsContainer:{
         flexDirection:"row",
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     btnText:{
         color:"#fff",
         fontSize:18,
+        fontFamily:"Lato-Regular"
     },
     operationBtn:{
         borderWidth:1,

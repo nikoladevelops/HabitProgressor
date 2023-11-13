@@ -7,7 +7,15 @@ import React from 'react';
 import { AllHabitsContextProvider } from './Contexts/AllHabitsContext.js';
 import { TopVisibleProvider } from './Contexts/TopVisibleContext.js';
 
+import { useCustomFonts } from './Utility/CustomFont.js';
+
 export default function App() {
+  const {fontsLoaded} = useCustomFonts()
+
+  if(!fontsLoaded){
+    return null
+  }
+  
   return (
       <ScrollView style={styles.container}>
         <AllHabitsContextProvider>

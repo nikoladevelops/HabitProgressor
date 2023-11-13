@@ -132,7 +132,8 @@ var styles = StyleSheet.create({
         alignSelf:"center",
         color:"#fff",
         fontSize:19,
-        textAlign:"center"
+        textAlign:"center",
+        fontFamily:"Lato-Regular"
     },
     allHabitBtnContainer:{
         flex:1,
@@ -163,13 +164,15 @@ var styles = StyleSheet.create({
         color:"#F3061A",
         textShadowColor: 'black',
         textShadowRadius:3,
-        textShadowOffset:{width:1,height:2}
+        textShadowOffset:{width:1,height:2},
+        fontFamily:"Lato-Regular"
     },
     editBtnText:{
         color:"yellow",
         textShadowColor: 'black',
         textShadowRadius:3,
-        textShadowOffset:{width:1,height:2}
+        textShadowOffset:{width:1,height:2},
+        fontFamily:"Lato-Regular"
     }
 });
 export default GenerateHabitButtons;
