@@ -1,17 +1,20 @@
 import React from "react";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
-import {deleteHabitByIdAsync, getAllHabitsAsync} from "../db/db.js"
+import {deleteHabitByIdAsync} from "../db/db.js"
 import {useHabitsState} from "../Contexts/AllHabitsContext";
 
 const DeleteHabitModal = ({isVisible, onClose, habitId})=>{
-    const {setHabitData} = useHabitsState()
+    const {habitData, setHabitData} = useHabitsState()
     
-    const deleteHabit = (id)=>{
-        deleteHabitByIdAsync(id)
-        .then(()=>getAllHabitsAsync())
-        .then((result)=>{setHabitData(result); onClose()})
-        .catch((err)=>console.log(err))
+    const deleteHabit = async (id)=>{
+        try {
+            await deleteHabitByIdAsync(id)
+            setHabitData(habitData.filter((habit)=>habit.id !== id))
+            onClose()
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return(

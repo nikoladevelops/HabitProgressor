@@ -1,11 +1,11 @@
 import React, { useEffect, useState} from "react";
 import {StyleSheet, View, Text, TouchableOpacity, TextInput} from "react-native"
 import Modal from "react-native-modal"
-import {updateHabitDescriptionAsync, getAllHabitsAsync} from "../db/db.js"
+import {updateHabitDescriptionAsync} from "../db/db.js"
 import {useHabitsState} from "../Contexts/AllHabitsContext";
 
 const EditHabitModal = ({isVisible, onClose, habit})=>{
-    const {setHabitData} = useHabitsState()
+    const {habitData, setHabitData} = useHabitsState()
     const [habitDescription, setHabitDescription] = useState(habit.description)
     
     useEffect(()=>{
@@ -15,8 +15,13 @@ const EditHabitModal = ({isVisible, onClose, habit})=>{
     const editHabit = async ()=>{
         try{
             await updateHabitDescriptionAsync(habit.id, habitDescription)
-            const allHabits = await getAllHabitsAsync()
-            setHabitData(allHabits);
+            setHabitData([...habitData.map((currHabit)=>{
+                if (currHabit.id != habit.id){
+                    return currHabit
+                }
+                
+                return {...habit, description: habitDescription}
+            })]);
             onClose();
         }catch(err){
             console.log(err)
