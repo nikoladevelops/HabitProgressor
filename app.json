@@ -12,7 +12,7 @@
       "backgroundColor": "#000000"
     },
     "notification":{
-      "icon":"./assets/icon.png"
+      "icon":"./assets/icon_grayscale.png"
    },
     "assetBundlePatterns": [
       "**/*"
